@@ -2,9 +2,9 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public class NormalGameWon : IGameWon
+    public class GameWonInStandardMode : IGameWon
     {
-        public NormalGameWon(IScoreContext context) => _context = context;
+        public GameWonInStandardMode(IScoreContext context) => _context = context;
 
         private int Score1 => _context.Player1Score;
         private int Score2 => _context.Player2Score;

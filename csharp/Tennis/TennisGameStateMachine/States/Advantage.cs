@@ -4,13 +4,13 @@ namespace Tennis.TennisGameStateMachine.States
 {
     public sealed class Advantage : ScoreBase
     {
-        private readonly WonInExtraTime _gameOver;
+        private readonly GameWonInExtraTime _gameOver;
         private readonly GameIsDeuce _gameIsDeuce;
 
         public Advantage(IScoreContext context)
             : base(context)
         {
-            _gameOver = new WonInExtraTime(ScoreContext);
+            _gameOver = new GameWonInExtraTime(ScoreContext);
             _gameIsDeuce = new GameIsDeuce(ScoreContext);
         }
 

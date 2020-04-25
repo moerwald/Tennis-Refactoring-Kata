@@ -5,7 +5,7 @@ namespace Tennis.TennisGameStateMachine.States
 {
     public sealed class NormalGame : ScoreBase
     {
-        private readonly NormalGameWon _gameOver;
+        private readonly GameWonInStandardMode _gameOver;
         private readonly GameIsDeuce _gameIsDeuce;
         private readonly IReadOnlyDictionary<int, string> normalGameScores = new Dictionary<int, string>
         {
@@ -18,7 +18,7 @@ namespace Tennis.TennisGameStateMachine.States
         public NormalGame(IScoreContext context)
             :base(context)
         {
-            _gameOver = new NormalGameWon(context);
+            _gameOver = new GameWonInStandardMode(context);
             _gameIsDeuce = new GameIsDeuce(context);
         }
 
