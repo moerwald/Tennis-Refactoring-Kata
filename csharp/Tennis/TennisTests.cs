@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Tennis.TennisGameStateMachine;
+using Tennis.TennisGameStateMachine.States;
 
 namespace Tennis
 {
