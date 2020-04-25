@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using Tennis.TennisGameStateMachine;
 
 namespace Tennis
 {
@@ -70,6 +71,15 @@ namespace Tennis
             CheckAllScores(game);
         }
 
+        [Test]
+        public void CheckTennisGame4()
+        {
+            var context = new TennisGame4Context();
+            context.Score = new GameStarted(context);
+            var game = new TennisGame4(context);
+            CheckAllScores(game);
+        }
+
         private void CheckAllScores(ITennisGame game)
         {
             var highestScore = Math.Max(this.player1Score, this.player2Score);
@@ -106,6 +116,15 @@ namespace Tennis
         public void CheckGame3()
         {
             var game = new TennisGame3("player1", "player2");
+            RealisticTennisGame(game);
+        }
+
+        [Test]
+        public void CheckGame4()
+        {
+            var context = new TennisGame4Context();
+            context.Score = new GameStarted(context);
+            var game = new TennisGame4(context);
             RealisticTennisGame(game);
         }
 
