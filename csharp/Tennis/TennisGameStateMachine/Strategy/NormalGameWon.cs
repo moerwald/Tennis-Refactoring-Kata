@@ -2,7 +2,7 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public class GameWonInStandardMode : IGameWon
+    public sealed class GameWonInStandardMode : IGameWon
     {
         public GameWonInStandardMode(IScoreContext context) => _context = context;
 

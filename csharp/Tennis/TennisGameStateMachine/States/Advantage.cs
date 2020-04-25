@@ -23,8 +23,8 @@ namespace Tennis.TennisGameStateMachine.States
         public override void WonPoint(string player)
         {
             ScoreContext.PlayerScored(player);
-            _gameOver.Yes(winner => ScoreContext.Score = new GameOver(winner));
-            _gameIsDeuce.Yes(() => ScoreContext.Score = new Deuce(ScoreContext));
+            _gameOver.Yes(winner => ScoreContext.GameState = new GameOver(winner));
+            _gameIsDeuce.Yes(() => ScoreContext.GameState = new Deuce(ScoreContext));
         }
     }
 }

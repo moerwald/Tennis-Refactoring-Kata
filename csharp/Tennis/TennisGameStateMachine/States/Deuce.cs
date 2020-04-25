@@ -15,7 +15,7 @@ namespace Tennis.TennisGameStateMachine.States
         {
             ScoreContext.PlayerScored(player);
             if (Player1Score != Player2Score)
-                ScoreContext.Score = new Advantage(ScoreContext);
+                ScoreContext.GameState = new Advantage(ScoreContext);
         }
     }
 }

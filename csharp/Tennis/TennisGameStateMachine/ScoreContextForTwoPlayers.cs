@@ -4,7 +4,7 @@ namespace Tennis.TennisGameStateMachine
 {
     public class ScoreContextForTwoPlayers : IScoreContext
     {
-        public IScore Score { get; set; }
+        public IScore GameState { get; set; }
         public int Player1Score { get; private set; }
         public int Player2Score { get; private set; }
 

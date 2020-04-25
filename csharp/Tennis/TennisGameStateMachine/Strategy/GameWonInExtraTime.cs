@@ -2,7 +2,7 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public class GameWonInExtraTime : IGameWon
+    public sealed class GameWonInExtraTime : IGameWon
     {
         private readonly IScoreContext _context;
         private int Player1Score => _context.Player1Score;

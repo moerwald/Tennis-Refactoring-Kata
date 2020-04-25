@@ -2,7 +2,7 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    internal class GameIsDeuce : IChangeGamePhase
+    public sealed class GameIsDeuce : IChangeGamePhase
 
     {
         private readonly IScoreContext _context;

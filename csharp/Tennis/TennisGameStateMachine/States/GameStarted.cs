@@ -4,14 +4,14 @@
     {
         public GameStarted(IScoreContext context)
             :base(context)
-            => ScoreContext.Score = this;
+            => ScoreContext.GameState = this;
 
         public override string GetScore() => "Love-All";
 
         public override void WonPoint(string player)
         {
-            ScoreContext.Score = new NormalGame(ScoreContext);
-            ScoreContext.Score.WonPoint(player);
+            ScoreContext.GameState = new NormalGame(ScoreContext);
+            ScoreContext.GameState.WonPoint(player);
         }
     }
 }
