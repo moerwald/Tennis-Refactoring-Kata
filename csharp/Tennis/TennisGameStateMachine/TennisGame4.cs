@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Tennis.TennisGameStateMachine.Strategy;
 
 namespace Tennis.TennisGameStateMachine
 {
@@ -105,39 +105,8 @@ namespace Tennis.TennisGameStateMachine
         public void WonPoint(string player)
         {
             context.PlayerScored(player);
-            var algo = new GameWonAlgorithm(context.Player1Score, context.Player2Score);
-            algo.WonInNormalGame(nameOfWinner => context.Score = new GameOver(nameOfWinner));
-        }
-    }
-
-    public class GameWonAlgorithm
-    {
-        public GameWonAlgorithm(int score1, int score2)
-        {
-            Score1 = score1;
-            Score2 = score2;
-        }
-
-        public int Score1 { get; }
-        public int Score2 { get; }
-
-        public void WonInNormalGame(Action<string> yes)
-        {
-            if (Score1 == 4 || Score2 == 4)
-            {
-                var playerDiff = Score1 - Score2;
-                if (Math.Abs(playerDiff).Equals(2))
-                {
-                    yes?.Invoke(GetNameOfWinner(playerDiff));
-                }
-            }
-        }
-
-        private string GetNameOfWinner(int diff) => diff == 2 ? "player1" : "player2";
-
-        public bool WonInExtraTime()
-        {
-            throw new NotImplementedException();
+            var algo = new NormalGameWon(context.Player1Score, context.Player2Score);
+            algo.GameOver(nameOfWinner => context.Score = new GameOver(nameOfWinner));
         }
     }
 
