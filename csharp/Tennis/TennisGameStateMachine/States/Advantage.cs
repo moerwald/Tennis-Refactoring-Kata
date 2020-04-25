@@ -2,26 +2,28 @@
 
 namespace Tennis.TennisGameStateMachine.States
 {
-    internal class Advantage : IScore
+    public sealed class Advantage : ScoreBase
     {
-        private IStateContext _context;
-        private WonInExtraTime _gameOver;
-        private GameIsDeuce _gameIsDeuce;
+        private readonly WonInExtraTime _gameOver;
+        private readonly GameIsDeuce _gameIsDeuce;
 
-        public Advantage(IStateContext context)
+        public Advantage(IScoreContext context)
+            :base (context)
         {
-            _context = context;
-            _gameOver = new WonInExtraTime(_context);
-            _gameIsDeuce = new GameIsDeuce(_context);
+            _gameOver = new WonInExtraTime(ScoreContext);
+            _gameIsDeuce = new GameIsDeuce(ScoreContext);
         }
 
-        public string GetScore() => _context.ScoreDiff() > 0 ? "Advantage player1" : "Advantage player2";
+        public override string GetScore() 
+            => Player1Score - Player2Score > 0 
+            ? $"Advantage {PlayerNames.Player1}" 
+            : $"Advantage {PlayerNames.Player2}";
 
-        public void WonPoint(string player)
+        public override void WonPoint(string player)
         {
-            _context.PlayerScored(player);
-            _gameOver.Yes(winner => _context.Score = new GameOver(winner));
-            _gameIsDeuce.Yes(() => _context.Score = new Deuce(_context));
+            ScoreContext.PlayerScored(player);
+            _gameOver.Yes(winner => ScoreContext.Score = new GameOver(winner));
+            _gameIsDeuce.Yes(() => ScoreContext.Score = new Deuce(ScoreContext));
         }
     }
 }

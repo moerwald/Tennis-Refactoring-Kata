@@ -1,25 +1,17 @@
 ﻿namespace Tennis.TennisGameStateMachine.States
 {
-    public class GameStarted : IScore
+    public sealed class GameStarted : ScoreBase
     {
-        private readonly IStateContext _context;
+        public GameStarted(IScoreContext context)
+            :base(context)
+            => ScoreContext.Score = this;
 
-        public GameStarted(IStateContext context)
-        {
-            _context = context;
-            _context.Score = this;
-        }
+        public override string GetScore() => "Love-All";
 
-        public string GetScore()
+        public override void WonPoint(string player)
         {
-            _context.Score = new NormalGame(_context);
-            return "Love-All";
-        }
-
-        public void WonPoint(string player)
-        {
-            _context.Score = new NormalGame(_context);
-            _context.Score.WonPoint(player);
+            ScoreContext.Score = new NormalGame(ScoreContext);
+            ScoreContext.Score.WonPoint(player);
         }
     }
 }

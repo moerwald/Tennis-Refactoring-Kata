@@ -3,12 +3,11 @@ using Tennis.TennisGameStateMachine.Strategy;
 
 namespace Tennis.TennisGameStateMachine.States
 {
-    public class NormalGame : IScore
+    public sealed class NormalGame : ScoreBase
     {
-        private IStateContext _context;
-        private NormalGameWon _gameOver;
-        private GameIsDeuce _gameIsDeuce;
-        private Dictionary<int, string> normalGameScores = new Dictionary<int, string>
+        private readonly NormalGameWon _gameOver;
+        private readonly GameIsDeuce _gameIsDeuce;
+        private readonly IReadOnlyDictionary<int, string> normalGameScores = new Dictionary<int, string>
         {
             {0, "Love" },
             {1, "Fifteen" },
@@ -16,24 +15,23 @@ namespace Tennis.TennisGameStateMachine.States
             {3, "Forty" },
         };
 
-        public NormalGame(IStateContext context)
+        public NormalGame(IScoreContext context)
+            :base(context)
         {
-            this._context = context;
-            this._gameOver = new NormalGameWon(context);
-            this._gameIsDeuce = new GameIsDeuce(context);
+            _gameOver = new NormalGameWon(context);
+            _gameIsDeuce = new GameIsDeuce(context);
         }
 
-        public string GetScore()
-        {
-            var score = $"{normalGameScores[_context.Player1Score]}-";
-            return score += _context.ScoresEqual() ? "All" : $"{normalGameScores[_context.Player2Score]}";
-        }
+        public override string GetScore() =>
+            string.Format("{0}-{1}",
+                          normalGameScores[ScoreContext.Player1Score],
+                          Player1Score == Player2Score ? "All" : $"{normalGameScores[ScoreContext.Player2Score]}");
 
-        public void WonPoint(string player)
+        public override void WonPoint(string player)
         {
-            _context.PlayerScored(player);
-            _gameOver.Yes(nameOfWinner => _context.Score = new GameOver(nameOfWinner));
-            _gameIsDeuce.Yes(() => _context.Score = new Deuce(_context));
+            ScoreContext.PlayerScored(player);
+            _gameOver.Yes(nameOfWinner => ScoreContext.Score = new GameOver(nameOfWinner));
+            _gameIsDeuce.Yes(() => ScoreContext.Score = new Deuce(ScoreContext));
         }
     }
 }

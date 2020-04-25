@@ -2,18 +2,20 @@
 
 namespace Tennis.TennisGameStateMachine.States
 {
-    public class Deuce : IScore
+    public sealed class Deuce : ScoreBase
     {
-        private IStateContext _context;
-
-        public Deuce(IStateContext context) => _context = context;
-        public string GetScore() => "Deuce";
-
-        public void WonPoint(string player)
+        public Deuce(IScoreContext context)
+            :base (context)
         {
-            _context.PlayerScored(player);
-            if (_context.ScoresEqual() == false)
-                _context.Score = new Advantage(_context);
+        }
+
+        public override string GetScore() => "Deuce";
+
+        public override void WonPoint(string player)
+        {
+            ScoreContext.PlayerScored(player);
+            if (Player1Score != Player2Score)
+                ScoreContext.Score = new Advantage(ScoreContext);
         }
     }
 }

@@ -2,23 +2,26 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public class WonInExtraTime : IGameWonAlgorithm
+    public class WonInExtraTime : IGameWon
     {
-        private IStateContext _context;
+        private readonly IScoreContext _context;
+        private int Player1Score => _context.Player1Score;
+        private int Player2Score => _context.Player2Score;
 
-        public WonInExtraTime(IStateContext context) => _context = context;
-
-        public int Score1 => _context.Player1Score;
-        public int Score2 => _context.Player2Score;
+        public WonInExtraTime(IScoreContext context) => _context = context;
 
         public void Yes(Action<string> yes)
         {
-            var x = Score2;
-            var diff = _context.ScoreDiff();
-            if (Math.Abs(diff) == 2)
+            var diff = Player1Score - Player2Score;
+            if (PlayerLeadsWithTwoPoints(diff))
             {
-                yes?.Invoke(diff > 0 ? "player1" : "player2");
+                yes?.Invoke(WinnerPlayerName(diff));
             }
         }
+
+        private static string WinnerPlayerName(int diff)
+            => diff > 0 ? PlayerNames.Player1 : PlayerNames.Player2;
+
+        private static bool PlayerLeadsWithTwoPoints(int diff) => Math.Abs(diff) == 2;
     }
 }

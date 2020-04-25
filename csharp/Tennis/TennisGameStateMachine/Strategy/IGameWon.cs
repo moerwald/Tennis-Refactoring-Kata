@@ -2,8 +2,8 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public interface IChangeStateAlgorithm
+    public interface IGameWon
     {
-        void Yes(Action yes);
+        void Yes(Action<string> yes);
     }
 }

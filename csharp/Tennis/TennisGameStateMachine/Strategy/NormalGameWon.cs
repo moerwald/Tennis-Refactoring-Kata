@@ -2,17 +2,14 @@
 
 namespace Tennis.TennisGameStateMachine.Strategy
 {
-    public class NormalGameWon : IGameWonAlgorithm
+    public class NormalGameWon : IGameWon
     {
-        public NormalGameWon(IStateContext context)
-        {
-            Context = context;
-        }
+        public NormalGameWon(IScoreContext context) => _context = context;
 
-        public int Score1 { get => Context.Player1Score; }
-        public int Score2 { get => Context.Player2Score; }
+        private int Score1 => _context.Player1Score;
+        private int Score2 => _context.Player2Score;
 
-        public IStateContext Context { get; }
+        private readonly IScoreContext _context;
 
         private const int ScoreDiffToWin = 2;
         private const int Forty = 4;
@@ -30,6 +27,8 @@ namespace Tennis.TennisGameStateMachine.Strategy
 
         private bool OnePlayerReachedForty() => Score1 == Forty || Score2 == Forty;
 
-        private string GetNameOfWinner(int diff) => diff >= ScoreDiffToWin ? "player1" : "player2";
+        private string GetNameOfWinner(int diff) => diff >= ScoreDiffToWin
+            ? PlayerNames.Player1
+            : PlayerNames.Player2;
     }
 }

@@ -75,7 +75,7 @@ namespace Tennis
         [Test]
         public void CheckTennisGame4()
         {
-            var context = new TennisGame4Context();
+            var context = new ScoreContextForTwoPlayers();
             context.Score = new GameStarted(context);
             var game = new TennisGame4(context);
             CheckAllScores(game);
@@ -123,7 +123,7 @@ namespace Tennis
         [Test]
         public void CheckGame4()
         {
-            var context = new TennisGame4Context();
+            var context = new ScoreContextForTwoPlayers();
             context.Score = new GameStarted(context);
             var game = new TennisGame4(context);
             RealisticTennisGame(game);

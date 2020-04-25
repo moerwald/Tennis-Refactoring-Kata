@@ -1,15 +1,13 @@
 ﻿namespace Tennis.TennisGameStateMachine.States
 {
-    public class GameOver : IScore
+    public sealed class GameOver : IScore
     {
-        private string playerName;
+        private readonly string _playerName;
 
         public GameOver(string playerName)
-        {
-            this.playerName = playerName;
-        }
+            => _playerName = playerName;
 
-        public string GetScore() => $"Win for {playerName}";
+        public string GetScore() => $"Win for {_playerName}";
 
         public void WonPoint(string player) { }
     }
