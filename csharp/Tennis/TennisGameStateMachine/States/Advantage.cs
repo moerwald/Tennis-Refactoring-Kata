@@ -8,16 +8,17 @@ namespace Tennis.TennisGameStateMachine.States
         private readonly GameIsDeuce _gameIsDeuce;
 
         public Advantage(IScoreContext context)
-            :base (context)
+            : base(context)
         {
             _gameOver = new WonInExtraTime(ScoreContext);
             _gameIsDeuce = new GameIsDeuce(ScoreContext);
         }
 
-        public override string GetScore() 
-            => Player1Score - Player2Score > 0 
-            ? $"Advantage {PlayerNames.Player1}" 
-            : $"Advantage {PlayerNames.Player2}";
+        public override string GetScore()
+            => string.Format("Advantage {0}",
+                        Player1Score - Player2Score > 0
+                        ? PlayerNames.Player1
+                        : PlayerNames.Player2);
 
         public override void WonPoint(string player)
         {
