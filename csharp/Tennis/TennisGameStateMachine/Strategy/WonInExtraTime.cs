@@ -4,17 +4,21 @@ namespace Tennis.TennisGameStateMachine.Strategy
 {
     public class WonInExtraTime : IGameWonAlgorithm
     {
-        public WonInExtraTime(int score1, int score2)
-        {
-            Score1 = score1;
-            Score2 = score2;
-        }
+        private IStateContext _context;
 
-        public int Score1 { get; }
-        public int Score2 { get; }
-        public void GameOver(Action<string> yes)
+        public WonInExtraTime(IStateContext context) => _context = context;
+
+        public int Score1 => _context.Player1Score;
+        public int Score2 => _context.Player2Score;
+
+        public void Yes(Action<string> yes)
         {
-            throw new NotImplementedException();
+            var x = Score2;
+            var diff = _context.ScoreDiff();
+            if (Math.Abs(diff) == 2)
+            {
+                yes?.Invoke(diff > 0 ? "player1" : "player2");
+            }
         }
     }
 }

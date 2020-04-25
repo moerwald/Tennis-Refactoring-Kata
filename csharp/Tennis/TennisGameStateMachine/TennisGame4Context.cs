@@ -11,6 +11,8 @@ namespace Tennis.TennisGameStateMachine
 
         public bool ScoresEqual() => Player1Score == Player2Score;
 
+        public int ScoreDiff() => Player1Score - Player2Score;
+
         public void PlayerScored(string player)
         {
             if (player == "player1")

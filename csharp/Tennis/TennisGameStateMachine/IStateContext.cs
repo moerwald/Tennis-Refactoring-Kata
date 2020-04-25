@@ -9,6 +9,8 @@ namespace Tennis.TennisGameStateMachine
         void PlayerScored(string player);
 
         bool ScoresEqual();
+        int ScoreDiff();
+
         int Player1Score { get; }
         int Player2Score { get; }
     }

@@ -5,8 +5,9 @@ namespace Tennis.TennisGameStateMachine.States
 {
     public class NormalGame : IScore
     {
-        private IStateContext context;
-
+        private IStateContext _context;
+        private NormalGameWon _gameOver;
+        private GameIsDeuce _gameIsDeuce;
         private Dictionary<int, string> normalGameScores = new Dictionary<int, string>
         {
             {0, "Love" },
@@ -15,19 +16,24 @@ namespace Tennis.TennisGameStateMachine.States
             {3, "Forty" },
         };
 
-        public NormalGame(IStateContext context) => this.context = context;
+        public NormalGame(IStateContext context)
+        {
+            this._context = context;
+            this._gameOver = new NormalGameWon(context);
+            this._gameIsDeuce = new GameIsDeuce(context);
+        }
 
         public string GetScore()
         {
-            var score = $"{normalGameScores[context.Player1Score]}-";
-            return score += context.ScoresEqual() ? "All" : $"{normalGameScores[context.Player2Score]}";
+            var score = $"{normalGameScores[_context.Player1Score]}-";
+            return score += _context.ScoresEqual() ? "All" : $"{normalGameScores[_context.Player2Score]}";
         }
 
         public void WonPoint(string player)
         {
-            context.PlayerScored(player);
-            var algo = new NormalGameWon(context.Player1Score, context.Player2Score);
-            algo.GameOver(nameOfWinner => context.Score = new GameOver(nameOfWinner));
+            _context.PlayerScored(player);
+            _gameOver.Yes(nameOfWinner => _context.Score = new GameOver(nameOfWinner));
+            _gameIsDeuce.Yes(() => _context.Score = new Deuce(_context));
         }
     }
 }

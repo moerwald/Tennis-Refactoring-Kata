@@ -4,19 +4,20 @@ namespace Tennis.TennisGameStateMachine.Strategy
 {
     public class NormalGameWon : IGameWonAlgorithm
     {
-        public NormalGameWon(int score1, int score2)
+        public NormalGameWon(IStateContext context)
         {
-            Score1 = score1;
-            Score2 = score2;
+            Context = context;
         }
 
-        public int Score1 { get; }
-        public int Score2 { get; }
+        public int Score1 { get => Context.Player1Score; }
+        public int Score2 { get => Context.Player2Score; }
+
+        public IStateContext Context { get; }
 
         private const int ScoreDiffToWin = 2;
         private const int Forty = 4;
 
-        public void GameOver(Action<string> yes)
+        public void Yes(Action<string> yes)
         {
             var playerDiff = Score1 - Score2;
             if (OnePlayerReachedForty() && ScoreDiffIsMoreThanTwo(playerDiff))
